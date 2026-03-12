@@ -1,17 +1,46 @@
-# zen_plus
+# ZenPulse
 
-ZenPulse AI Meditation App
+MVP мобильного приложения для медитаций с Paywall, списком сессий и AI-блоком
+«Настрой дня».
 
-## Getting Started
+## Что реализовано
 
-This project is a starting point for a Flutter application.
+- Экран `Paywall` с преимуществами Premium, месячным и годовым тарифом
+- Экран `Meditations` со списком карточек (изображение, название, длительность)
+- Lock-логика для Premium-контента (серые карточки + замок + переход в Paywall)
+- Экран `AI Настрой дня` с выбором 3 настроений и мок-генерацией аффирмации
+- Сохранение состояния подписки через `SharedPreferences`
 
-A few resources to get you started if this is your first Flutter project:
+## Как ИИ справился с мобильной спецификой
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- `SafeArea` применён на всех основных экранах, чтобы контент не конфликтовал с вырезами и системными зонами.
+- Экранный контент сделан прокручиваемым: `SingleChildScrollView` и `ListView`.
+- Для списков использован `ListView`, как в спецификации.
+- Избегаются жёсткие фиксированные высоты для крупных блоков; используются гибкие контейнеры и `Expanded`.
+- Карточки и кнопки имеют комфортные тач-зоны и адаптивные отступы.
+- Сценарий маленьких экранов (например, iPhone SE) учтён за счёт вертикальной прокрутки, переносов текста и отсутствия «жёсткой» верстки.
+- Логика блокировки соблюдена: при `isSubscribed == false` часть карточек визуально заблокирована и ведёт в Paywall.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Контрольный вопрос
+
+**С какими специфическими проблемами мобильной верстки ИИ справляется хуже всего и как я это контролировал?**
+
+Хуже всего ИИ обычно справляется с двумя вещами:
+- тонкие переполнения на маленьких экранах;
+- хрупкие места со fixed-отступами, которые выглядят нормально на Pro Max, но ломаются на iPhone SE.
+
+Чтобы это не уехало в проде, я контролировал результат руками:
+- прогонял экраны минимум в двух размерах: iPhone SE и Pro Max;
+- специально проверял Paywall в самом плотном состоянии;
+- следил, чтобы всё ключевое было в SafeArea и прокрутке;
+- избегал фиксированных высот для больших блоков, чтобы UI дышал на любой высоте;
+- после каждой правки делал быстрый smoke-check сценариев: locked карточка -> Paywall -> назад.
+
+Итог: приложение не зависит от идеального экрана и остаётся рабочим и на компактных, и на больших девайсах.
+
+## Запуск проекта
+
+```bash
+flutter pub get
+flutter run
+```
