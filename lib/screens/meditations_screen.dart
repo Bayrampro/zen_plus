@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/meditation_item.dart';
+import 'ai_mood_screen.dart';
 import '../widgets/meditation_session_card.dart';
 
 class MeditationsScreen extends StatelessWidget {
@@ -79,6 +80,72 @@ class MeditationsScreen extends StatelessWidget {
                 'Выберите сессию на сегодня',
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: Colors.black54,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Material(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(14),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const AiMoodScreen(),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: const Color(0xFFD4E3DD)),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 42,
+                          height: 42,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE5F2EC),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.auto_awesome,
+                            color: Color(0xFF3A8970),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'AI Настрой дня',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                'Выберите настроение и получите аффирмацию',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const Icon(
+                          Icons.chevron_right_rounded,
+                          color: Colors.black54,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               if (!isSubscribed) ...[
